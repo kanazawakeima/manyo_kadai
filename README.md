@@ -1,22 +1,22 @@
-#user
+# user
 |カラム|データ|
 |:--:|:--:|
 |name|string|
 |e-mail|string|
 |password|string|
 
-#task
+# task
 |カラム|データ|
 |:--:|:--:|
 |user_id|integer|
 |title|string|
 |content|text|
 
-#label
+# label
 |カラム|データ|
 |:--:|:--:|
 
-#task_label
+# task_label
 |カラム|データ|
 |:--:|:--:|
 |task_id|integer|
