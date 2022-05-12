@@ -12,6 +12,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in'task[title]',with: '金澤'
         fill_in'task[content]',with: '金澤'
+        fill_in'task[deadline]',with: '002022-01-01'
         click_on '登録する'
       expect(page).to have_content'金澤'
       end
@@ -33,9 +34,22 @@ RSpec.describe 'タスク管理機能', type: :system do
         task = FactoryBot.create(:task, title: 'task3', content: 'task3')
         task = FactoryBot.create(:task, title: 'task2', content: 'task2')
         visit tasks_path
+        click_on '作成順'
         task_list = all('.task_row')
         expect(task_list[0]).to have_content "task2"
         expect(task_list[1]).to have_content "task3"
+      end
+    end
+    context '終了期限が降順に並んでいる場合' do
+      it '終了期限が近いタスクが一番上に表示される' do
+        task = FactoryBot.create(:task, title: 'task3', content: 'task3', deadline: "2022-08-01")
+        task = FactoryBot.create(:task, title: 'task1', content: 'task1', deadline: "2022-06-01")
+        task = FactoryBot.create(:task, title: 'task2', content: 'task2', deadline: "2022-07-01")
+        visit tasks_path
+        click_on '終了期限順'
+        task_list = all('.task_row')
+        expect(task_list[0]).to have_content "task1"
+        expect(task_list[1]).to have_content "task2"
       end
     end
   end

@@ -11,14 +11,24 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
+  <div class="title">
+    <%= form.label :タスク名 %>
     <%= form.text_field :title %>
   </div>
 
-  <div class="field">
-    <%= form.label :content %>
+  <div class="content">
+    <%= form.label :詳細 %>
     <%= form.text_area :content %>
+  </div>
+
+  <div class="deadline">
+    <%= form.label :終了期限 %>
+    <%= form.date_field :deadline %>
+  </div>
+
+  <div class="status">
+    <%= form.label :ステータス %>
+    <%= form.select :status, Task.statuses.keys, {prompt: "選択してください"} %>
   </div>
 
   <div class="actions">
