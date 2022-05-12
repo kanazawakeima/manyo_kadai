@@ -1,5 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
+  let!(:task) { FactoryBot.create(:task, title: 'task') }
   before do
     # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
     FactoryBot.create(:task)
@@ -11,7 +12,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in'task[title]',with: '金澤'
         fill_in'task[content]',with: '金澤'
-        click_on 'Create Task'
+        click_on '登録する'
       expect(page).to have_content'金澤'
       end
     end
@@ -25,6 +26,14 @@ RSpec.describe 'タスク管理機能', type: :system do
         Task.count
         page.html
         expect(page).to have_content 'task'
+      end
+    end
+    context 'タスクが作成日時の降順に並んでいる場合' do
+      it '新しいタスクが一番上に表示される' do
+        task = FactoryBot.create(:task, title: 'task2', content: 'task2')
+        visit tasks_path
+        task_list = all('.task_row')
+        expect(task_list[0]).to have_content "task2"
       end
     end
   end
