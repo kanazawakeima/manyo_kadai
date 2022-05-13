@@ -1,8 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Tasks</h1>
+<div class="search-form">
+  <%= form_with(scope: :task, url: tasks_path, method: :get, local: true) do |f| %>
+   <div class="search-title">
+     <%= f.label(:title, 'タスク名') %>
+     <%= f.text_field :title %>
+   </div>
+   <div class="search-status">
+     <%= f.label(:status, 'ステータス') %>
+     <%= f.select :status, Task.statuses.keys, {prompt: "選択してください"} %>
+   </div>
+   <div class="actions">
+     <%= f.submit('検索') %>
+   </div>
+  <% end %>
+
 <tr>
-  <th><%= link_to '作成順', tasks_path(sort_created: "true") %></th>
+  <th><%= link_to '作成順', tasks_path(sort_created: "true") %></th>|
   <th><%= link_to '終了期限順', tasks_path(sort_expired: "true") %></th>
 </tr>
 

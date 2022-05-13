@@ -3,13 +3,11 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    if params[:sort_created]
-    @tasks = Task.all.order(created_at: :desc)
-    elsif params[:sort_expired]
-      @tasks = Task.all.order(deadline: :asc)
-    else
-      @tasks = Task.all
-    end
+    @tasks = Task.all
+    @tasks = @tasks.search_title params[:task][:title] if params[:task].present?
+    @tasks = @tasks.search_status params[:task][:status] if params[:task].present?
+    @tasks = @tasks.order(created_at: :desc) if params[:sort_created]
+    @tasks = @tasks.order(deadline: :asc) if params[:sort_expired]
   end
 
   # GET /tasks/1 or /tasks/1.json
