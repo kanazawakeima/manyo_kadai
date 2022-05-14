@@ -13,6 +13,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in'task[title]',with: '金澤'
         fill_in'task[content]',with: '金澤'
         fill_in'task[deadline]',with: '002022-01-01'
+        select'完了',from: 'task_status'
         click_on '登録する'
       expect(page).to have_content'金澤'
       end
@@ -47,12 +48,47 @@ RSpec.describe 'タスク管理機能', type: :system do
         task = FactoryBot.create(:task, title: 'task2', content: 'task2', deadline: "2022-07-01")
         visit tasks_path
         click_on '終了期限順'
+        binding.irb
         task_list = all('.task_row')
         expect(task_list[0]).to have_content "task1"
         expect(task_list[1]).to have_content "task2"
       end
     end
+    
   end
+  describe '検索機能' do
+    before do
+    end
+
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        fill_in'task[title]',with: 'Factoryタイトル1'
+        click_on '検索'
+        expect(page).to have_content 'Factoryコンテント1'
+      end
+    end
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        visit tasks_path
+        click_on '作成順'
+        select'着手中',from: 'task_status'
+        click_on '検索'
+        expect(page).to have_content 'Factoryコンテント2'
+      end
+    end
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+        visit tasks_path
+        click_on '作成順'
+        fill_in'task[title]',with: 'Factoryタイトル1'
+        select'完了',from: 'task_status'
+        click_on '検索'
+        expect(page).to have_content 'Factoryコンテント1'
+      end
+    end
+  end
+
   describe '詳細表示機能' do
      context '任意のタスク詳細画面に遷移した場合' do
        it '該当タスクの内容が表示される' do
