@@ -4,7 +4,7 @@ FactoryBot.define do
     content { 'Factoryコンテント1' }
     deadline { '2022-12-01' }
     status { '完了' }
-    priority { '高'}
+    priority { '高' }
   end
   factory :second_task, class: Task do
     title { 'Factoryタイトル2' }

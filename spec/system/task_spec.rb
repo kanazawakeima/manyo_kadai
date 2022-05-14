@@ -1,6 +1,5 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  let!(:task) { FactoryBot.create(:task, title: 'task') }
   before do
     # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
     FactoryBot.create(:task)
@@ -48,13 +47,21 @@ RSpec.describe 'タスク管理機能', type: :system do
         task = FactoryBot.create(:task, title: 'task2', content: 'task2', deadline: "2022-07-01")
         visit tasks_path
         click_on '終了期限順'
-        binding.irb
         task_list = all('.task_row')
         expect(task_list[0]).to have_content "task1"
         expect(task_list[1]).to have_content "task2"
       end
     end
-    
+    context '優先度が高い順に並ぶ場合' do
+      it '優先度が高いタスクが一番上にくる' do
+        visit tasks_path
+        click_on '優先度順'
+        binding.irb
+        task_list = all('.task_row')
+        expect(task_list[0]).to have_content "Factoryコンテント1"
+        expect(task_list[1]).to have_content "Factoryコンテント2"
+      end
+    end
   end
   describe '検索機能' do
     before do
