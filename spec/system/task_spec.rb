@@ -56,7 +56,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '優先度が高いタスクが一番上にくる' do
         visit tasks_path
         click_on '優先度順'
-        binding.irb
         task_list = all('.task_row')
         expect(task_list[0]).to have_content "Factoryコンテント1"
         expect(task_list[1]).to have_content "Factoryコンテント2"

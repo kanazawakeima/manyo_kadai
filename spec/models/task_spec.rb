@@ -44,9 +44,9 @@ require 'rails_helper'
     context 'scopeメソッドでタイトルのあいまい検索とステータス検索をした場合' do
       it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
         # ここに内容を記載する
-        expect(Task.search_title('test').search_status('完了')).to include(task)
-        expect(Task.search_title('test').search_status('完了')).not_to include(second_task)
-        expect(Task.search_title('test').search_status('完了').count).to eq 1
+        expect(Task.search_title('task').search_status('完了')).to include(task)
+        expect(Task.search_title('task').search_status('完了')).not_to include(second_task)
+        expect(Task.search_title('task').search_status('完了').count).to eq 1
       end
     end
   end
