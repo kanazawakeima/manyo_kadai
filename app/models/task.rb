@@ -11,4 +11,5 @@ class Task < ApplicationRecord
     where("title LIKE ?", "%#{search_title}%")}
   scope :search_status, ->(search_status){
     where(status: search_status)}
+  belongs_to :user
 end

@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Tasks</h1>
+<h2><%= current_user.name %>のタスク一覧</h2>
 
 <button type="button" class="btn btn-outline-primary">
-  <%= link_to '新規登録', new_task_path %>
+  <%= link_to '新規タスクを作成する', new_task_path %>
 </button>
 
 <div class="d-flex bd-highlight">
@@ -44,7 +44,7 @@
         <td><%= task.title %></td>
         <td><%= task.content %></td>
         <td><%= task.deadline %></td>
-        <td><%= task.created_at %></td>
+        <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
         <td><%= task.status %></td>
         <td><%= task.priority %></td>
         <td type="button" class="btn btn-outline-info"><%= link_to '詳細', task %></td>
