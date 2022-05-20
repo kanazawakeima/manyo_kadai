@@ -5,6 +5,7 @@ FactoryBot.define do
     deadline { '2022-12-01' }
     status { '完了' }
     priority { '高' }
+    association :user
   end
   factory :second_task, class: Task do
     title { 'Factoryタイトル2' }
@@ -12,5 +13,6 @@ FactoryBot.define do
     deadline { '2022-12-02' }
     status { '着手中' }
     priority { '低' }
+    association :admin_user
   end
 end

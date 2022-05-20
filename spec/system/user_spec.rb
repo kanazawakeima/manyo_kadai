@@ -14,6 +14,7 @@ describe 'ユーザー管理機能', type: :system do
         fill_in 'user[password]',with: 'keima@keima.com'
         fill_in 'user[password_confirmation]',with: 'keima@keima.com'
         click_on '登録する'
+        binding.irb
         expect(page).to have_content'keima@keima.com'
       end
     end

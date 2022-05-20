@@ -3,6 +3,9 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    if logged_in?
+      redirect_to tasks_path
+    end
   end
 
   def create
