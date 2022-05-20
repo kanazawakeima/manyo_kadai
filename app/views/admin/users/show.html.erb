@@ -1,0 +1,26 @@
+<h2><%= current_user.name %>のタスク一覧ページ</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">タスク名</th>
+      <th scope="col">詳しい内容</th>
+      <th scope="col">終了期限</th>
+      <th scope="col">登録日時</th>
+      <th scope="col">ステータス</th>
+      <th scope="col">優先度</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.tasks.each do |task| %>
+      <tr class ="task_row">
+        <td><%= task.title %></td>
+        <td><%= task.content %></td>
+        <td><%= task.deadline %></td>
+        <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
+        <td><%= task.status %></td>
+        <td><%= task.priority %></td>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to '管理者画面へ戻る', admin_users_path %>
