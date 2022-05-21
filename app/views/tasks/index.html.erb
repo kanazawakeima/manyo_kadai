@@ -5,6 +5,13 @@
 <button type="button" class="btn btn-outline-primary">
   <%= link_to '新規タスクを作成する', new_task_path %>
 </button>
+<div class="d-flex bd-highlight">
+<div class="p-2 flex-fill bd-highlight"><%= form_with url: tasks_path, method: :get, local: true do |form| %></div>
+  <div><%= form.label(:label, 'ラベル') %></div>
+  <div><%= form.select("label_id", Label.pluck(:name, :id), { include_blank: true }) %></div>
+  <div><%= form.submit 'Search', name: nil %></div>
+<div class="p-2 flex-fill bd-highlight"><% end %></div>
+</div>
 
 <div class="d-flex bd-highlight">
   <div class="p-2 flex-fill bd-highlight"><%= form_with(scope: :task, url: tasks_path, method: :get, local: true) do |f| %></div>
@@ -12,7 +19,7 @@
    <div class="p-2 flex-fill bd-highlight"><%= f.text_field :title %></div>
    <div class="p-2 flex-fill bd-highlight"><%= f.label(:status, 'ステータス') %></div>
    <div class="p-2 flex-fill bd-highlight"><%= f.select :status, Task.statuses.keys, {prompt: "選択してください"} %></div>
-   <div class="p-2 flex-fill bd-highlight"><%= f.submit('検索') %></div>
+   <div class="p-2 flex-fill bd-highlight"><%= f.submit'検索' %></div>
   <div class="p-2 flex-fill bd-highlight"><% end %></div>
  </div>
 
@@ -35,7 +42,7 @@
       <th scope="col">ステータス</th>
       <th scope="col">優先度</th>
       <th scope="col">作成者</th>
-
+      <th scope="col">ラベル</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -49,6 +56,10 @@
         <td><%= task.status %></td>
         <td><%= task.priority %></td>
         <td><%= current_user.name %></td>
+        <td><% task.labels.each do |label| %>
+              <%= label.name %>
+            <% end %>
+        </td>
         <td type="button" class="btn btn-outline-info"><%= link_to '詳細', task %></td>
         <td type="button" class="btn btn-outline-success"><%= link_to '編集', edit_task_path(task) %></td>
         <td type="button" class="btn btn-outline-danger"><%= link_to '削除', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

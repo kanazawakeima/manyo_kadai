@@ -12,3 +12,5 @@ User.create!(
    password_confirmation: 'keima@keima.com',
    admin: true
 )
+
+%W[仕事 家庭 プライベート].each { |a| Label.create(name: a) }
