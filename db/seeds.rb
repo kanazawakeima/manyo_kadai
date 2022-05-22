@@ -13,4 +13,40 @@ User.create!(
    admin: true
 )
 
+User.create!(
+  name: 'test',
+  email: 'test@test.com',
+  password: 'test@test.com',
+  password_confirmation: 'test@test.com',
+  admin: false
+)
+
+10.times do |n|
+  name = Faker::Name.name
+  email = Faker::Internet.email
+  password = "password"
+  admin = false
+  User.create!(name: name,
+               email: email,
+               password: password,
+               admin: admin
+                )
+end
+
+10.times do |n|
+  title = Faker::JapaneseMedia::Naruto.character
+  content = Faker::JapaneseMedia::Naruto.village
+  Task.create!(title: title,
+               content: content,
+               deadline: "2022/07/30",
+               status: "未着手",
+               priority: "中",
+               user_id: n + 1
+               )
+end
+
+10.times do |n|
+  Label.create(name: "test#{n + 1}")
+end
+
 %W[仕事 家庭 プライベート].each { |a| Label.create(name: a) }
