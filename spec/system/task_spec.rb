@@ -1,9 +1,12 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
   before do
-    # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
+    FactoryBot.create(:user)
+    visit new_task_path
+    fill_in'session[email]',with: 'hoge@hoge.com'
+    fill_in'session[password]',with: 'hoge@hoge.com'
+    click_on 'Log in'
+    let!(:task) { FactoryBot.create(:task, user: user) }
   end
   describe '新規作成機能' do
     context 'タスクを新規作成した場合' do
@@ -21,8 +24,8 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '一覧表示機能' do
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        task = FactoryBot.create(:task, title: 'task', content: 'task')
         visit tasks_path
+                    binding.irb
         current_path
         Task.count
         page.html
@@ -31,6 +34,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
+        visit tasks_path
         task = FactoryBot.create(:task, title: 'task3', content: 'task3')
         task = FactoryBot.create(:task, title: 'task2', content: 'task2')
         visit tasks_path
@@ -42,6 +46,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context '終了期限が降順に並んでいる場合' do
       it '終了期限が近いタスクが一番上に表示される' do
+        visit tasks_path
         task = FactoryBot.create(:task, title: 'task3', content: 'task3', deadline: "2022-08-01")
         task = FactoryBot.create(:task, title: 'task1', content: 'task1', deadline: "2022-06-01")
         task = FactoryBot.create(:task, title: 'task2', content: 'task2', deadline: "2022-07-01")
@@ -63,9 +68,9 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
   end
   describe '検索機能' do
-    before do
-    end
-
+      before do
+        visit tasks_path
+      end
     context 'タイトルであいまい検索をした場合' do
       it "検索キーワードを含むタスクで絞り込まれる" do
         visit tasks_path
@@ -96,6 +101,9 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '詳細表示機能' do
+    before do
+      visit tasks_path
+    end
      context '任意のタスク詳細画面に遷移した場合' do
        it '該当タスクの内容が表示される' do
          @task = FactoryBot.create(:task, title: '成功', content: '成功')

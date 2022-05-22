@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= current_user.id %>
 <p>
   <strong>タスク名:</strong>
   <%= @task.title %>
@@ -23,6 +23,13 @@
 <p>
   <strong>優先度:</strong>
   <%= @task.priority %>
+</p>
+
+<p>
+  <strong>ラベル:</strong>
+  <% @task.labels.each do |label| %>
+    <%= label.name %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |

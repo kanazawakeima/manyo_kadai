@@ -3,8 +3,8 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
-    @tasks = Task.page(params[:page]).per(5)
+    @tasks = current_user.tasks.page(params[:page]).per(5)
+    @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
     if params[:task].present?
       if params[:task][:title] && params[:task][:status].present?
         @tasks = @tasks.search_title params[:task][:title]
@@ -36,6 +36,7 @@ class TasksController < ApplicationController
   # POST /tasks or /tasks.json
   def create
     @task = Task.new(task_params)
+    @task.user_id = current_user.id
 
     respond_to do |format|
       if @task.save
@@ -79,6 +80,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+      params.require(:task).permit(:title, :content, :deadline, :status, :priority, { label_ids: [] })
     end
 end
